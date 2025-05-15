@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IPL Win Predictor</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    label, input { display: block; margin: 10px 0; width: 100%; }
+    button { padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>IPL Win Predictor</h1>
+
+  <label>Batting Team:
+    <input id="batting" placeholder="e.g. Mumbai Indians" />
+  </label>
+
+  <label>Bowling Team:
+    <input id="bowling" placeholder="e.g. Chennai Super Kings" />
+  </label>
+
+  <label>City:
+    <input id="city" placeholder="e.g. Delhi" />
+  </label>
+
+  <label>Runs Left:
+    <input id="runs" type="number" />
+  </label>
+
+  <label>Balls Left:
+    <input id="balls" type="number" />
+  </label>
+
+  <label>Wickets Left:
+    <input id="wickets" type="number" />
+  </label>
+
+  <label>Current Score:
+    <input id="score" type="number" />
+  </label>
+
+  <label>Current Run Rate (CRR):
+    <input id="crr" type="number" />
+  </label>
+
+  <label>Required Run Rate (RRR):
+    <input id="rrr" type="number" />
+  </label>
+
+  <button onclick="predict()">Predict Win Probability</button>
+
+  <p id="result" style="font-size: 18px; font-weight: bold;"></p>
+
+  <script>
+    async function predict() {
+      const payload = {
+        batting_team: document.getElementById("batting").value,
+        bowling_team: document.getElementById("bowling").value,
+        city: document.getElementById("city").value,
+        runs_left: parseInt(document.getElementById("runs").value),
+        balls_left: parseInt(document.getElementById("balls").value),
+        wickets: parseInt(document.getElementById("wickets").value),
+        current_score: parseInt(document.getElementById("score").value),
+        crr: parseFloat(document.getElementById("crr").value),
+        rrr: parseFloat(document.getElementById("rrr").value)
+      };
+
+      try {
+        const response = await fetch("https://0334-34-16-188-196.ngrok-free.app/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        document.getElementById("result").innerText = `Win: ${data.win}% | Lose: ${data.lose}%`;
+      } catch (error) {
+        document.getElementById("result").innerText = "Error connecting to prediction API.";
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
