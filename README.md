@@ -18,7 +18,7 @@ A machine learning-powered web application that predicts the winning probabiliti
     Backend: Python, Flask
 
     Machine Learning: Scikit-learn (Logistic Regression)
-    Laxman Singh Tomar
+    Laxman Kilaru
 
 🚀 Getting Started
 Prerequisites
